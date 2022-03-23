@@ -32,4 +32,4 @@ class readDF():
 
 read = readDF()
 df = read.df
-print(df.head())
+print(df.columns())

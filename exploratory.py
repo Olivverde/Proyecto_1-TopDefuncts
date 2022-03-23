@@ -1,9 +1,14 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 class readDF():
 
     def __init__(self):
-        self.df = self.concat()
+        auxDf = self.concat()
+        self.df = self.dfGrooming(auxDf)
+
+        print(self.df.columns)
+
 
     def concat(self):
         df2009 =pd.read_spss('defunciones/2009-defunciones.sav')
@@ -28,8 +33,30 @@ class readDF():
             ])
         
         return df09To20
+    
+    def dfGrooming(self, df):
+        # Limpieza de año de registro de defuncion 
+        df['Añoreg'] = df['Añoreg'].astype(int).astype(str)
+        df['Añoreg'] = df['Añoreg'].apply(
+            lambda x: '2009' if x == '9' 
+            else ('2010' if (x == '10') else x))
+        
+        return df
+
+    def defuntsPerYear(self, df):
+        df = df.groupby(df['Añoreg']).size()
+        ax = df.plot.bar()
+        plt.show()
+    
+    def defuntsPerDepto(self, df):
+        df = df.groupby(df['Depocu']).size().sort_values(ascending=False)
+        ax = df.plot.bar()
+        plt.show()
+        
+
 
 
 read = readDF()
 df = read.df
-print(df.columns())
+#read.defuntsPerYear(df)
+read.defuntsPerDepto(df)

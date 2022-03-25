@@ -194,3 +194,9 @@ df = read.df
 #read.defuntsPerYear(df)
 # read.defuntsPerDepto(df)
 read.freq_table(df, 'Cerdef')
+
+#correr primero así para sacar codos y la cantidad de clusters
+read.clustering(df, k_select_tools=True)
+#luego correr con clusters
+#read.clustering(df, k=x)
+

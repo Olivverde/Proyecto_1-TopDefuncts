@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -52,11 +53,68 @@ class readDF():
         df = df.groupby(df['Depocu']).size().sort_values(ascending=False)
         ax = df.plot.bar()
         plt.show()
+    
+    def var_summary(self, df):
+        df = self.df
+        quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef',  'mupreg', 'mupocu', 'añoocu', 'mnadif', 'Pnadif', 'Predif', 'Puedif', 'Ciuodif', 'caudef.descrip']
+        quant = ['Añoreg', 'Diaocu', 'Añoocu', 'Edadif']
+        # df = df.pop(cuantitativas)
+        df.drop(quall, axis='columns', inplace=True)
+        print(df.describe())
         
+    def histogram_quant_var(self, df):
+        df = self.df
+        
+        x = df['Añoreg'].dropna()
+        x.astype(int)
+        df = df.sort_values('Añoreg', ascending=False)
+        plt.hist(x, color='#ACFA58', alpha=0.5,  bins=20, rwidth=0.9)
+        plt.title('Distribución del año de registro')
+        plt.xlabel('Año de registro')
+        plt.show()
+    
+        x = df['Diaocu'].dropna()
+        x.astype(int)
+        df = df.sort_values('Diaocu', ascending=False)
+        plt.hist(x, color='#ACFA58', alpha=0.5,  bins=20, rwidth=0.9)
+        plt.title('Distribución del dia de ocurrencia')
+        plt.xlabel('Dia de ocurrencia')
+        plt.show()
+       
+        df.drop(df[df['Edadif'] == 'Ignorado'].index, inplace = True)
+        x = df['Edadif'].dropna()
+        x.astype(int)
+        df = df.sort_values('Edadif', ascending=False)
+        plt.hist(x, color='#ACFA58', alpha=0.5,  bins=20, rwidth=0.9)
+        plt.title('Distribución de la edad del difunto (a)')
+        plt.xlabel('Edad del difunto (a)')
+        plt.show()
+        
+    def freq_table(self, df, var):
+        df = self.df
+        #quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef']
+        df = pd.value_counts(df[var])
+        
+        df = pd.DataFrame(df)
+        df.columns = ['Frequency']
 
+        df['Relative Frequency %'] = 100 * df['Frequency'] / len(df)
+        
+        cumulative = [ ]
+        cumulative_value = 0
+
+        for i in df['Relative Frequency %'].values:
+            cumulative_value = cumulative_value + i
+            cumulative.append(cumulative_value)
+
+        df['Cumulative Frequency %'] = cumulative
+        print(df)
 
 
 read = readDF()
 df = read.df
+#quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef']
+        
 #read.defuntsPerYear(df)
-read.defuntsPerDepto(df)
+# read.defuntsPerDepto(df)
+read.freq_table(df, 'Cerdef')

@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 class readDF():
 
@@ -40,7 +41,15 @@ class readDF():
         df['Añoreg'] = df['Añoreg'].apply(
             lambda x: '2009' if x == '9' 
             else ('2010' if (x == '10') else x))
+
+        # Limpieza de Edad del difunto 
+        df['Edadif'] = df['Edadif'].apply(
+            lambda x: -1 if x == 'Ignorado' else x)
+        df['Edadif'] = df['Edadif'].astype(int)
         
+        # Limpieza de asistencia del difunto 
+        df['Asist'] = df['Asist'].apply(
+            lambda x: 'Médica' if x == 'Médico' else x)
         return df
 
     def defuntsPerYear(self, df):
@@ -52,11 +61,33 @@ class readDF():
         df = df.groupby(df['Depocu']).size().sort_values(ascending=False)
         ax = df.plot.bar()
         plt.show()
+    
+    def genderDefunts(self, df):
+        df = df.groupby(df['Sexo']).size()
+        ax = df.plot.bar()
+        plt.show()
+    
+    def ageDist(self, df):
+        df = df.groupby(df['Edadif']).size().sort_index()
+        df.plot(color='red')
+        df.plot.bar()
+        plt.locator_params(axis='x', nbins=12)
+        plt.show()
+    
+    def asistances(self, df):
+        df = df.groupby(df['Asist']).size()
+        df.plot.bar(color=[
+            'green','orange', 'pink',
+            'red', 'blue', 'yellow'
+         ])
+        plt.show()
         
-
 
 
 read = readDF()
 df = read.df
 #read.defuntsPerYear(df)
-read.defuntsPerDepto(df)
+#read.defuntsPerDepto(df)
+#read.genderDefunts(df)
+#read.ageDist(df)
+read.asistances(df)

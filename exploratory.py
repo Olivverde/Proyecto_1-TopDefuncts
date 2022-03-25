@@ -6,6 +6,11 @@ from sklearn.cluster import KMeans
 import sklearn.preprocessing
 import sklearn.cluster as cluster
 import pyclustertend 
+<<<<<<< HEAD
+=======
+from sklearn.metrics import silhouette_samples, silhouette_score
+
+>>>>>>> 630ddbac9071101b6e0da8799bd3a95212979711
 
 class readDF():
 
@@ -86,6 +91,7 @@ class readDF():
             'red', 'blue', 'yellow'
          ])
         plt.show()
+<<<<<<< HEAD
 
     def defuntsProfs(self, df):
         df = df.groupby(df['Ocudif']).size().sort_values(ascending=False).head(10)
@@ -119,6 +125,8 @@ class readDF():
         plt.show()
   
 
+=======
+>>>>>>> 630ddbac9071101b6e0da8799bd3a95212979711
     def var_summary(self, df):
         df = self.df
         quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef',  'mupreg', 'mupocu', 'añoocu', 'mnadif', 'Pnadif', 'Predif', 'Puedif', 'Ciuodif', 'caudef.descrip']
@@ -189,6 +197,29 @@ class readDF():
         plt.title("Gráfico de Codo")
         plt.show()
 
+<<<<<<< HEAD
+=======
+    def silueta(self, x, n = 6):
+        fig, (ax1, ax2) = plt.subplots(1, 2)
+        fig.set_size_inches(18, 7)
+        
+
+        n_clusters = list(range(2, n+1))
+        ax1.set_xlim([-1, 1])
+        ax1.set_ylim([0, len(x) + (n_clusters + 1) * 10])
+        clusterer = KMeans(n_clusters=n_clusters, random_state=0)
+        cluster_labels = clusterer.fit_predict(x)
+
+        silhouette_avg = silhouette_score(x, cluster_labels)
+        print(
+            "For n_clusters =",
+            n_clusters,
+            "The average silhouette_score is :",
+            silhouette_avg,
+        )
+
+
+>>>>>>> 630ddbac9071101b6e0da8799bd3a95212979711
     def clustering(self, df, k = 2, k_select_tools = False):
         #   La gran mayoría son numéricas pero se las tuvo que tratar como si lo fueran para que haya más de
         #   una variable numérica con la cual trabajar. Se eligieron la que se cree pueden servir para agrupar.
@@ -241,6 +272,7 @@ class readDF():
             
             plt.show()
 
+
         
 
 
@@ -254,6 +286,7 @@ df = read.df
 #read.defuntsPerDepto(df)
 #read.genderDefunts(df)
 #read.ageDist(df)
+<<<<<<< HEAD
 #read.asistances(df)
 #read.defuntsProfs(df)
 #read.ocupCauses_1(df)
@@ -261,6 +294,11 @@ df = read.df
 #read.ocupCauses_3(df)
 read.ocupCauses_Estudiantes(df)
 #read.freq_table(df, 'Cerdef')
+=======
+read.asistances(df)
+# read.defuntsPerDepto(df)
+read.freq_table(df, 'Cerdef')
+>>>>>>> 630ddbac9071101b6e0da8799bd3a95212979711
 
 #correr primero así para sacar codos y la cantidad de clusters
 #read.clustering(df, k_select_tools=True)

@@ -1,14 +1,11 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
 import seaborn as sns
-=======
 from sklearn.cluster import KMeans
 import sklearn.preprocessing
 import sklearn.cluster as cluster
 import pyclustertend 
->>>>>>> 1bf7067503fa4572f2a05ea8c3d1d5a77ee858c3
 
 class readDF():
 
@@ -70,7 +67,6 @@ class readDF():
         ax = df.plot.bar()
         plt.show()
     
-<<<<<<< HEAD
     def genderDefunts(self, df):
         df = df.groupby(df['Sexo']).size()
         ax = df.plot.bar()
@@ -90,7 +86,39 @@ class readDF():
             'red', 'blue', 'yellow'
          ])
         plt.show()
-=======
+
+    def defuntsProfs(self, df):
+        df = df.groupby(df['Ocudif']).size().sort_values(ascending=False).head(10)
+        print(df)
+        plt.xticks(rotation = 90)
+        df.plot.bar()
+        plt.show()
+    
+    def ocupCauses_1(self, df):
+        df = df[df['Ocudif'] == 'Oficios domésticos no remunerados']
+        df = df.groupby(df['Caudef']).size().sort_values(ascending=False).head(10)
+        df.plot.bar()
+        plt.show()
+    
+    def ocupCauses_2(self, df):
+        df = df[df['Ocudif'] == 'Peones de explotaciones agrícolas']
+        df = df.groupby(df['Caudef']).size().sort_values(ascending=False).head(10)
+        df.plot.bar()
+        plt.show()
+    
+    def ocupCauses_3(self, df):
+        df = df[df['Ocudif'] == 'Infante (Sin ocupación)']
+        df = df.groupby(df['Caudef']).size().sort_values(ascending=False).head(10)
+        df.plot.bar()
+        plt.show()
+
+    def ocupCauses_Estudiantes(self, df):
+        df = df[df['Ocudif'] == 'Estudiante']
+        df = df.groupby(df['Caudef']).size().sort_values(ascending=False).head(10)
+        df.plot.bar()
+        plt.show()
+  
+
     def var_summary(self, df):
         df = self.df
         quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef',  'mupreg', 'mupocu', 'añoocu', 'mnadif', 'Pnadif', 'Predif', 'Puedif', 'Ciuodif', 'caudef.descrip']
@@ -131,7 +159,6 @@ class readDF():
         df = self.df
         #quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef']
         df = pd.value_counts(df[var])
->>>>>>> 1bf7067503fa4572f2a05ea8c3d1d5a77ee858c3
         
         df = pd.DataFrame(df)
         df.columns = ['Frequency']
@@ -148,7 +175,6 @@ class readDF():
         df['Cumulative Frequency %'] = cumulative
         print(df)
 
-
     def codo(self, x):
         numeroClusters = range(1,11)
         wcss = []
@@ -163,9 +189,6 @@ class readDF():
         plt.title("Gráfico de Codo")
         plt.show()
 
-
-<<<<<<< HEAD
-=======
     def clustering(self, df, k = 2, k_select_tools = False):
         #   La gran mayoría son numéricas pero se las tuvo que tratar como si lo fueran para que haya más de
         #   una variable numérica con la cual trabajar. Se eligieron la que se cree pueden servir para agrupar.
@@ -223,24 +246,24 @@ class readDF():
 
         
 
->>>>>>> 1bf7067503fa4572f2a05ea8c3d1d5a77ee858c3
 read = readDF()
 df = read.df
 #quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef']
         
 #read.defuntsPerYear(df)
-<<<<<<< HEAD
 #read.defuntsPerDepto(df)
 #read.genderDefunts(df)
 #read.ageDist(df)
-read.asistances(df)
-=======
-# read.defuntsPerDepto(df)
-read.freq_table(df, 'Cerdef')
+#read.asistances(df)
+#read.defuntsProfs(df)
+#read.ocupCauses_1(df)
+#read.ocupCauses_2(df)
+#read.ocupCauses_3(df)
+read.ocupCauses_Estudiantes(df)
+#read.freq_table(df, 'Cerdef')
 
 #correr primero así para sacar codos y la cantidad de clusters
-read.clustering(df, k_select_tools=True)
+#read.clustering(df, k_select_tools=True)
 #luego correr con clusters
 #read.clustering(df, k=x)
 
->>>>>>> 1bf7067503fa4572f2a05ea8c3d1d5a77ee858c3

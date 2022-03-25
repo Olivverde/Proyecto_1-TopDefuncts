@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+import sklearn.preprocessing
+import sklearn.cluster as cluster
+import pyclustertend 
 
 class readDF():
 
@@ -110,6 +114,78 @@ class readDF():
         df['Cumulative Frequency %'] = cumulative
         print(df)
 
+
+    def codo(self, x):
+        numeroClusters = range(1,11)
+        wcss = []
+        for i in numeroClusters:
+            kmeans = cluster.KMeans(n_clusters=i)
+            kmeans.fit(x)
+            wcss.append(kmeans.inertia_)
+
+        plt.plot(numeroClusters, wcss)
+        plt.xlabel("Número de clusters")
+        plt.ylabel("Score")
+        plt.title("Gráfico de Codo")
+        plt.show()
+
+
+    def clustering(self, df, k = 2, k_select_tools = False):
+        #   La gran mayoría son numéricas pero se las tuvo que tratar como si lo fueran para que haya más de
+        #   una variable numérica con la cual trabajar. Se eligieron la que se cree pueden servir para agrupar.
+        #   Toma la edad, el mes de ocurrencia, la asistencia recibida, el lugar de ocurrencia, la escolaridad,
+        #   el estado civil, el depto de ocurrencia y el depto de residencia.
+        df = df.filter(items=['Edadif', 'Mesocu', 'Asist', 'Ocur', 'Escodif', 'Ecidif', 
+        'Depocu', 'Dredif'])                    
+
+        df.drop(df[df['Edadif'] == 'Ignorado'].index, inplace = True)       #remover ignorados
+        df.drop(df[df['Asist'] == 'Ignorado'].index, inplace = True)        #remover ignorados
+        df.drop(df[df['Ocur'] == 'Ignorado'].index, inplace = True)         #remover ignorados
+        df.drop(df[df['Escodif'] == 'Ignorado'].index, inplace = True)      #remover ignorados
+        df.drop(df[df['Ecidif'] == 'Ignorado'].index, inplace = True)       #remover ignorados
+        df.drop(df[df['Depocu'] == 'Ignorado'].index, inplace = True)       #remover ignorados
+        df.drop(df[df['Dredif'] == 'Ignorado'].index, inplace = True)       #remover ignorados
+        df.drop(df[df['Edadif'] < 18].index, inplace = True)                #remover menores de edad
+
+        df = df.dropna()    #quitar NAs                                   
+
+        x = np.array(df['Edadif', 'Mesocu', 'Asist', 'Ocur', 'Escodif', 'Ecidif', 'Depocu', 'Dredif'])
+        #               0          1         2        3       4          5         6         7
+        norm_x = sklearn.preprocessing.scale(x)
+        
+        if (k_select_tools):
+            print(pyclustertend.hopkins(x,len(x)))
+            pyclustertend.vat(norm_x)
+            self.codo(norm_x)
+        else:
+            y = KMeans(n_clusters = k, random_state=0).fit_predict(x)
+            
+            #¿Los grupos presentan una diferencia entre el lugar de ocurrencia y la asistencia recibida?
+            plt.subplot(221)
+            plt.scatter(x[:, 3], x[:, 2], c=y)
+            plt.title('Lugar de ocurrencia vs Asistencia recibida')
+
+            #¿Los trabajos requieren que gente de diferentes grupos viajen?
+            plt.subplot(222)
+            plt.scatter(x[:, 6], x[:, 7], c=y)
+            plt.title('Departameto de ocurrencia vs Departamento de residencia')
+
+            #¿Clase social de los grupos?
+            plt.subplot(223)
+            plt.scatter(x[:, 5], x[:, 0], c=y)
+            plt.title('Escolaridad vs Edad')
+
+            #¿Los grupos presentan diferencia entre las épocas del año y el lugar de ocurrencia?
+            plt.subplot(224)
+            plt.scatter(x[:, 1], x[:, 3], c=y)
+            plt.title('Mes de ocurrencia vs Lugar de ocurrencia')
+            
+            plt.show()
+
+        
+
+
+        
 
 read = readDF()
 df = read.df

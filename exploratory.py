@@ -1,14 +1,13 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
 import seaborn as sns
-=======
 from sklearn.cluster import KMeans
 import sklearn.preprocessing
 import sklearn.cluster as cluster
 import pyclustertend 
->>>>>>> 1bf7067503fa4572f2a05ea8c3d1d5a77ee858c3
+from sklearn.metrics import silhouette_samples, silhouette_score
+
 
 class readDF():
 
@@ -70,7 +69,6 @@ class readDF():
         ax = df.plot.bar()
         plt.show()
     
-<<<<<<< HEAD
     def genderDefunts(self, df):
         df = df.groupby(df['Sexo']).size()
         ax = df.plot.bar()
@@ -90,7 +88,6 @@ class readDF():
             'red', 'blue', 'yellow'
          ])
         plt.show()
-=======
     def var_summary(self, df):
         df = self.df
         quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef',  'mupreg', 'mupocu', 'añoocu', 'mnadif', 'Pnadif', 'Predif', 'Puedif', 'Ciuodif', 'caudef.descrip']
@@ -131,7 +128,6 @@ class readDF():
         df = self.df
         #quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef']
         df = pd.value_counts(df[var])
->>>>>>> 1bf7067503fa4572f2a05ea8c3d1d5a77ee858c3
         
         df = pd.DataFrame(df)
         df.columns = ['Frequency']
@@ -163,9 +159,26 @@ class readDF():
         plt.title("Gráfico de Codo")
         plt.show()
 
+    def silueta(self, x, n = 6):
+        fig, (ax1, ax2) = plt.subplots(1, 2)
+        fig.set_size_inches(18, 7)
+        
 
-<<<<<<< HEAD
-=======
+        n_clusters = list(range(2, n+1))
+        ax1.set_xlim([-1, 1])
+        ax1.set_ylim([0, len(x) + (n_clusters + 1) * 10])
+        clusterer = KMeans(n_clusters=n_clusters, random_state=0)
+        cluster_labels = clusterer.fit_predict(x)
+
+        silhouette_avg = silhouette_score(x, cluster_labels)
+        print(
+            "For n_clusters =",
+            n_clusters,
+            "The average silhouette_score is :",
+            silhouette_avg,
+        )
+
+
     def clustering(self, df, k = 2, k_select_tools = False):
         #   La gran mayoría son numéricas pero se las tuvo que tratar como si lo fueran para que haya más de
         #   una variable numérica con la cual trabajar. Se eligieron la que se cree pueden servir para agrupar.
@@ -218,23 +231,21 @@ class readDF():
             
             plt.show()
 
-        
-
 
         
 
->>>>>>> 1bf7067503fa4572f2a05ea8c3d1d5a77ee858c3
+
+        
+
 read = readDF()
 df = read.df
 #quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef']
         
 #read.defuntsPerYear(df)
-<<<<<<< HEAD
 #read.defuntsPerDepto(df)
 #read.genderDefunts(df)
 #read.ageDist(df)
 read.asistances(df)
-=======
 # read.defuntsPerDepto(df)
 read.freq_table(df, 'Cerdef')
 
@@ -243,4 +254,3 @@ read.clustering(df, k_select_tools=True)
 #luego correr con clusters
 #read.clustering(df, k=x)
 
->>>>>>> 1bf7067503fa4572f2a05ea8c3d1d5a77ee858c3

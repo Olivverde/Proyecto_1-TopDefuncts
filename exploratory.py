@@ -211,7 +211,7 @@ class readDF():
         )
 
 
-    def clustering(self, df, k = 2, k_select_tools = False):
+    def clustering(self, df, k = 2, k_select_tools = False, k_means_diagnostics = False):
         #   La gran mayoría son numéricas pero se las tuvo que tratar como si lo fueran para que haya más de
         #   una variable numérica con la cual trabajar. Se eligieron la que se cree pueden servir para agrupar.
         #   Toma la edad, el mes de ocurrencia, la asistencia recibida, el lugar de ocurrencia, la escolaridad,
@@ -262,6 +262,8 @@ class readDF():
             plt.title('Mes de ocurrencia vs Lugar de ocurrencia')
             
             plt.show()
+        if k_means_diagnostics:
+            self.silueta(x, 6)
 
 
         

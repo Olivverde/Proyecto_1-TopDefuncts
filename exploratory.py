@@ -42,6 +42,7 @@ class readDF():
         
         return df09To20
     
+        
     def dfGrooming(self, df):
         # Limpieza de año de registro de defuncion 
         df['Añoreg'] = df['Añoreg'].astype(int).astype(str)
@@ -129,6 +130,8 @@ class readDF():
         df.drop(quall, axis='columns', inplace=True)
         print(df.describe())
         
+        return quall, quant
+        
     def histogram_quant_var(self, df):
         df = self.df
         
@@ -210,6 +213,7 @@ class readDF():
             silhouette_avg,
         )
 
+    
 
     def clustering(self, df, k = 2, k_select_tools = False, k_means_diagnostics = False):
         #   La gran mayoría son numéricas pero se las tuvo que tratar como si lo fueran para que haya más de
@@ -264,6 +268,8 @@ class readDF():
             plt.show()
         if k_means_diagnostics:
             self.silueta(x, 6)
+            
+    
 
 
         
@@ -271,27 +277,27 @@ class readDF():
 
         
 
-read = readDF()
-df = read.df
-#quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef']
+# read = readDF()
+# df = read.df
+# #quall = ['Depreg', 'Mupreg', 'Mesreg', 'Depocu', 'Mupocu', 'Areag', 'Sexo', 'Mesocu', 'Perdif', 'Getdif', 'Ecidif', 'Escodif', 'Ocudif', 'Dnadif', 'Mnadif', 'Nacdif', 'Dredif', 'Mredif', 'Caudef', 'Asist', 'Ocur', 'Cerdef']
         
-#read.defuntsPerYear(df)
-#read.defuntsPerDepto(df)
-#read.genderDefunts(df)
-#read.ageDist(df)
-#read.asistances(df)
-#read.defuntsProfs(df)
-#read.ocupCauses_1(df)
-#read.ocupCauses_2(df)
-#read.ocupCauses_3(df)
-read.ocupCauses_Estudiantes(df)
-#read.freq_table(df, 'Cerdef')
-read.asistances(df)
-# read.defuntsPerDepto(df)
-read.freq_table(df, 'Cerdef')
+# #read.defuntsPerYear(df)
+# #read.defuntsPerDepto(df)
+# #read.genderDefunts(df)
+# #read.ageDist(df)
+# #read.asistances(df)
+# #read.defuntsProfs(df)
+# #read.ocupCauses_1(df)
+# #read.ocupCauses_2(df)
+# #read.ocupCauses_3(df)
+# read.ocupCauses_Estudiantes(df)
+# #read.freq_table(df, 'Cerdef')
+# read.asistances(df)
+# # read.defuntsPerDepto(df)
+# read.freq_table(df, 'Cerdef')
 
-#correr primero así para sacar codos y la cantidad de clusters
-#read.clustering(df, k_select_tools=True)
-#luego correr con clusters
-#read.clustering(df, k=x)
+# #correr primero así para sacar codos y la cantidad de clusters
+# #read.clustering(df, k_select_tools=True)
+# #luego correr con clusters
+# #read.clustering(df, k=x)
 
